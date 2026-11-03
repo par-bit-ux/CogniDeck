@@ -1,0 +1,327 @@
+COGNIDECK DEVELOPMENT JOURNAL
+Weeks 7-12
+
+CogniDeck is a Python desktop app that turns raw study notes into flashcard
+decks and quizzes. It runs fully offline: notes are parsed with fixed rules
+instead of a cloud AI service. This journal records what I built each week,
+the order I built it in, the problems I hit and how I solved them.
+
+Tools used throughout: Python 3.14, VS Code (with the Python extension and a
+launch.json so F5 runs the app), customtkinter for the interface, SQLite for
+storage, matplotlib for charts, and Python's built-in unittest for testing.
+
+
+==============================================================================
+WEEK 7: PLANNING, SETUP AND THE DATABASE
+==============================================================================
+
+Goal: have a project that runs, a window that opens, and somewhere to store
+decks and cards.
+
+Steps
+1. Planned the features: paste notes -> generate cards -> study with
+   flipping cards -> rate yourself -> quizzes -> progress charts. I decided
+   against using an AI API: it needs internet access, keys and money, and a
+   rule-based parser is something I could actually design and explain myself.
+2. Set up the project folder in VS Code:
+     main.py              entry point
+     cognideck/           the app package
+     tests/               unit tests
+     requirements.txt     customtkinter, matplotlib
+     .gitignore           ignores .venv, __pycache__, cognideck.db
+3. Created a virtual environment (.venv) and installed the packages.
+4. Added .vscode/launch.json ("Run CogniDeck") and settings.json so VS Code
+   uses the .venv interpreter and can find the tests.
+5. Wrote cognideck/__init__.py with PROJECT_ROOT, DB_PATH and EXPORT_PATH,
+   built from the file's own location, so the app finds its data files
+   whichever folder it is started from.
+6. Designed the SQLite schema in database.py:
+     decks         id, name, mode, source_text, created_at
+     cards         front, back, card_type, status, plus scheduling fields
+     reviews       a log of every rating (needed later for charts/streaks)
+     quiz_results  score and total for each quiz
+   Every query uses "?" placeholders, never string formatting, to avoid
+   SQL injection.
+7. Wrote the Database class: create_deck, list_decks, get_cards, add_card,
+   update_card, delete_card, rename_deck, delete_deck.
+8. Made a first empty customtkinter window to check that everything worked.
+
+Problems and fixes
+- Python from Homebrew had no Tk, so the window wouldn't open
+  ("No module named _tkinter"). Fixed with: brew install python-tk@3.14
+- My first virtual environment broke after a Python upgrade (it pointed at a
+  Python that no longer existed). I renamed it to .venv-old-broken in case I
+  needed anything from it, and built a fresh .venv.
+- Deleting a deck left its cards behind. SQLite ignores ON DELETE CASCADE
+  unless "PRAGMA foreign_keys = ON" is run on every connection, so I added
+  that to Database.__init__.
+
+Testing: created decks and cards from the Python shell and checked them with
+the sqlite3 command-line tool.
+
+
+==============================================================================
+WEEK 8: THE NOTE PARSER, PART 1 (STRUCTURED NOTES)
+==============================================================================
+
+Goal: turn notes that already have a clear structure into cards.
+
+Steps
+1. Created parser.py with a Card dataclass (front, back, card_type).
+2. split_blocks(): splits notes into blocks at blank lines. Each block is
+   parsed on its own, which is what lets one set of notes mix formats.
+3. Wrote regular expressions to recognise each kind of line:
+     BULLET_RE      "- point", "• point", "1. point"
+     QUESTION_RE    "Q: ..." / "Question 2: ..."
+     ANSWER_RE      "A: ..." / "Answer: ..."
+     DEFINITION_RE  "Term: meaning", "Term = meaning", "Term - meaning"
+     HEADING_RE     "# Heading" or "Heading:"
+4. One strategy function per format:
+     parse_definitions()  term on the front, meaning on the back
+     parse_qa()           question on the front, answer on the back
+     parse_bullets()      a heading on the front, its bullets on the back
+5. classify_block() looks at a block's lines and guesses which strategy fits.
+   This became "Auto-detect" mode. The other modes force one strategy for
+   the whole document.
+6. parse_notes() ties it together and dedupe() removes repeated cards.
+7. Started tests/test_parser.py with one test per format.
+
+Problems and fixes
+- "Q: Who kills Duncan?" was being read as a definition (term "Q", meaning
+  "Who kills Duncan?") because it has a colon. Fixed by having _definition()
+  reject lines that match QUESTION_RE or ANSWER_RE.
+- Long sentences that happened to contain a colon became huge "definitions".
+  Fixed by requiring the term to be 6 words or fewer and the meaning to be at
+  least 2 words.
+- Leaving a blank line between "Q:" and "A:" split them into two blocks, so
+  the question was lost. parse_notes() now rejoins an answer block onto the
+  question block before it.
+- A heading on a line by itself was turned into a useless card. Now a
+  heading-only block is remembered and applied to the next block instead.
+
+
+==============================================================================
+WEEK 9: THE NOTE PARSER, PART 2 (ESSAYS, QUOTES, FILL-IN-THE-BLANK)
+==============================================================================
+
+Goal: handle prose. This was the hardest part of the project, because
+paragraphs have no labels to tell you what matters.
+
+Steps
+1. split_sentences(): a regex that splits after . ! ? when the next sentence
+   starts with a capital letter or a number.
+2. Essay mode: the first sentence of a paragraph (the topic sentence) goes on
+   the front, and the best supporting sentences go on the back as bullets.
+3. To pick the "best" sentences I wrote _score_sentences(), which scores a
+   sentence on:
+     - keyword density: words that repeat across the paragraph and document
+       (common STOPWORDS like "the" and "and" are ignored)
+     - SIGNAL_WORDS that mark analysis: "shows", "because", "symbolises"...
+     - containing a quotation or a number
+     - being the last sentence, since conclusions often sum up
+   I divide by the square root of the sentence length so long sentences don't
+   win just because they have more words.
+4. The top 2-4 sentences are kept in their original order, and
+   compress_point() trims filler openers like "Furthermore," and caps the
+   length.
+5. Long paragraphs are split into chunks of about 6 sentences so a single
+   card never holds too much.
+6. Quote cards: every quotation becomes its own "What does this quote show?"
+   card. If the next sentence contains a signal word, it is added as the
+   explanation.
+7. Cloze (fill-in-the-blank) mode: picks the highest-scoring sentences and
+   blanks out one important word. Names (capitalised mid-sentence) score
+   highest, and multi-word names like "Lady Macbeth" are blanked together.
+8. summarise() produces the "12 cards: 4 definitions, 3 questions..." line.
+9. Wrote sample_notes.py: Macbeth notes that deliberately mix every format,
+   so the sample shows what Auto-detect can do.
+
+Problems and fixes
+- Cloze cards kept blanking the same word ("ambition" again and again).
+  Added a `used` set that is shared across blocks; words already used as
+  answers have their score cut to 20%.
+- Signal words like "shows" were being chosen as blanks, and they are
+  impossible to guess. Gave signal words a score penalty for cloze.
+- One-sentence paragraphs gave a card with an empty back. They now fall back
+  to cloze cards instead.
+- Sentence splitting broke after a closing quote (... "brave Macbeth". He ...).
+  Fixed the regex to allow a closing quote or bracket after the full stop.
+
+Testing: added tests for essay key points, quote cards, cloze and the mixed
+sample. Also tested that every mode gives at least one card from the sample.
+
+
+==============================================================================
+WEEK 10: THE STUDY SCREEN, FLIP ANIMATION AND SPACED REPETITION
+==============================================================================
+
+Goal: a usable study screen with cards that actually flip.
+
+Steps
+1. Main window (ui/app.py): a top bar with the logo, Study / Quiz / Decks /
+   Progress tabs, a deck picker and a dark-mode switch. All four screens are
+   built once and stacked in the same grid cell; tkraise() shows one.
+2. theme.py: every colour is a (light, dark) pair so customtkinter can switch
+   themes automatically. Added helpers for fonts and grey buttons.
+3. Study screen (ui/study_view.py), in two columns:
+     left   deck name, parsing mode, notes box, Generate button
+     right  the card, a "Card 1 of 5 - FRONT" counter, a mastery bar,
+            Previous / Flip / Next and three rating buttons
+4. The flip card (ui/flipcard.py). Tkinter has no 3D, so I faked it: the
+   card squashes horizontally to a thin sliver (as if edge-on), swaps to the
+   other side, then stretches back out. Easing curves (sine/cosine) make it
+   speed up into the turn and slow down out of it. Moving between cards
+   slides the old card off one side and the new one in from the other.
+   Animations run frame by frame with after(), because a loop with sleep()
+   would freeze the window.
+5. scheduler.py: a simplified version of the SM-2 spaced-repetition method.
+     Needs Review  -> back in 10 minutes, and the card gets "harder"
+     In Progress   -> 1 day, then the gap grows by 1.5x
+     Mastered      -> at least 3 days, multiplied by the card's ease
+   study_order() puts missed cards first, then new, then due cards.
+6. Database.rate_card() saves the new schedule and logs the review in the
+   same transaction.
+7. Keyboard shortcuts: Space flips, arrow keys move, 1/2/3 rate.
+
+Problems and fixes
+- Pressing Space while typing notes flipped the card instead of typing a
+  space. The app's key handler now ignores keys when a text box has focus,
+  and Esc leaves the notes box.
+- Clicking quickly during a flip made the card get stuck half-squashed. Added
+  an `animating` flag so new flips and slides are ignored until the current
+  animation ends.
+- The text looked squashed and messy during the flip, so it is now hidden
+  during the animation and shown again at the end.
+- Long answers overflowed the card. _font_size() picks a smaller font for
+  longer text, and the text is re-wrapped whenever the card is resized.
+- In the rating-button loop, every button rated "Mastered". This is Python's
+  late binding in lambdas; fixed with lambda s=status: self.rate(s).
+
+Testing: scheduler tests (Needs Review comes back in 10 minutes, Mastered
+intervals grow, In Progress starts at 1 day). The UI was tested by hand.
+
+
+==============================================================================
+WEEK 11: QUIZZES, DECK MANAGER, PROGRESS DASHBOARD AND EXPORT
+==============================================================================
+
+Goal: finish the remaining screens and make the data portable.
+
+Steps
+1. quiz.py builds multiple-choice and true/false questions from a deck.
+   The wrong options (distractors) come from other cards in the same deck,
+   preferring cards of the same type, so they all look believable.
+   Definitions are sometimes asked in reverse (show the meaning, pick the
+   term).
+2. Quiz screen (ui/quiz_view.py) with three stages: setup (number of
+   questions, type, "only cards I haven't mastered"), questions and results.
+   CTkButton text can't wrap, so I made an OptionTile widget for long answers.
+   A wrong answer sends that card back to Needs Review. The results page
+   lists missed questions and has a "Retry missed" button.
+3. Deck manager (ui/decks_view.py): new, rename, reset progress and delete
+   decks, and add, edit or delete cards by hand.
+4. Progress dashboard (ui/progress_view.py): six summary tiles plus three
+   matplotlib charts: a mastery donut, cards reviewed per day for 14 days,
+   and quiz accuracy over time. Study streak = consecutive days with at
+   least one review.
+5. exporter.py writes every deck to flashcards.json after each change.
+6. Wrote tests/test_logic.py: rating updates, wrong quiz answers, quiz
+   questions being well-formed, JSON export and deleting decks. Each test uses
+   its own temporary database so the real one is never touched.
+
+Problems and fixes
+- Some quiz questions had the same option twice. _distractors() now skips
+  options that match the answer or each other once case and punctuation are
+  ignored, and a test checks that options are always unique.
+- Charts stayed dark after switching to light mode, because matplotlib
+  doesn't know about customtkinter's themes. theme.pick() turns a colour pair
+  into one colour for the current mode, and the charts are redrawn when the
+  theme changes.
+- If the app closed while flashcards.json was being written, the file could
+  be left half-written. The exporter now writes to a .tmp file and renames it
+  over the old one, which happens all at once.
+- Two decks with the same name were impossible to tell apart in the deck
+  picker. Duplicate names now get their id added, e.g. "Macbeth (#4)".
+- The "Questions to revisit" text was cut off. Labels now re-wrap when the
+  panel is resized.
+
+
+==============================================================================
+WEEK 12: PDF / WORD IMPORT, CODE COMMENTS AND DOCUMENTATION
+==============================================================================
+
+Goal: let students load notes from PDF and Word files, not just pasted text,
+and finish documenting the project.
+
+Steps
+1. New module cognideck/importer.py with import_file(path), which returns
+   plain text in the same format as pasted notes. That means the parser
+   didn't need to change at all: imported notes go through exactly the same
+   steps as typed ones.
+2. Word (.docx): a .docx is really a zip file of XML. I read
+   word/document.xml with Python's built-in zipfile and xml.etree modules,
+   so Word support needs no extra package.
+     - Heading styles (Heading1, Title...) become "# Heading"
+     - list paragraphs (<w:numPr> or a "List" style) become "- bullet"
+     - two-column tables become "Term: meaning" lines, so a glossary
+       table turns straight into definition cards
+3. PDF: added pypdf to requirements.txt to extract the text layer. PDFs
+   return one printed line at a time, so I wrote reflow_lines() to rebuild
+   paragraphs:
+     - a line only continues onto the next if it is close to full width
+       (a short line means the paragraph ended)
+     - words split with a hyphen at the end of a line are rejoined
+     - page numbers ("12", "Page 3 of 10") are removed
+     - bullet symbols (•, ▪, ►...) become "- " bullets
+     - short title-like lines become headings
+4. assemble() writes the pieces back out with blank lines in the right
+   places: bullets stay attached to their heading, and definitions and Q&A
+   lines stay grouped with lines of their own kind.
+5. Connected it to the existing "Open file..." button on the Study screen. The
+   extracted text appears in the notes box so it can be checked before
+   generating, and the deck name is filled in from the file name.
+6. Friendly error messages for scanned PDFs (no text layer), old .doc files,
+   damaged files and missing files.
+7. Wrote tests/test_importer.py. The tests build real .docx and PDF files on
+   the fly (a minimal PDF can be written by hand in a few lines), so no
+   sample documents need to be stored.
+8. Added comments throughout the code explaining why each section works the
+   way it does, and docstrings for every function that lacked one.
+9. Updated README.md and wrote this journal.
+
+Problems and fixes
+- pypdf drops blank lines, so a heading after a paragraph got glued onto the
+  end of that paragraph. Fixed by deciding paragraph breaks from line length
+  instead of blank lines.
+- In a glossary, every "Term: meaning" line was joined into one long line.
+  Now a definition straight after another definition always starts a new
+  line.
+- "Macbeth: Fatal Flaw" (a heading) looked like a definition because of the
+  colon. A title-case check now tells it apart from
+  "Hamartia: the fatal flaw..." (a real definition, with a lowercase meaning).
+- Q&A lines were grouped into the same block as definitions, so the parser
+  treated the whole glossary as Q&A. They are now kept in separate blocks.
+
+Testing: the key test turns the Macbeth sample notes into a word-wrapped PDF
+(like a word processor would), imports it, and checks the deck matches the
+one made from the original notes: 12 cards (4 definitions, 3 quote analyses,
+2 key-point cards, 2 questions, 1 topic). All 26 tests pass.
+
+
+==============================================================================
+REFLECTION
+==============================================================================
+
+What went well
+- Keeping the parser separate from the interface meant I could test it with
+  unit tests and reuse it unchanged for PDF and Word import.
+- Using fixed rules instead of AI means the app works offline, is free to
+  run, and I can explain exactly why each card was made.
+
+What I would improve
+- Essay key points depend on word frequency, so very short paragraphs give
+  weaker cards. More signal words, or scoring by sentence position, could help.
+- Large PDFs are read on the main thread, so the window pauses briefly.
+  Running the import in a background thread would keep it responsive.
+- Scanned PDFs could be supported with OCR (e.g. Tesseract), but that needs a
+  large extra install.

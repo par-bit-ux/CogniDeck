@@ -1,0 +1,6 @@
+customtkinter==6.0.0
+matplotlib==3.11.2
+pypdf==6.21.2
+# Reading scanned PDFs on a Mac (uses Apple's built-in text recognition, offline)
+ocrmac==1.0.1 ; sys_platform == "darwin"
+pypdfium2==5.14.0

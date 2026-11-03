@@ -1,0 +1,356 @@
+{
+  "app": "CogniDeck",
+  "version": "1.0.0",
+  "exported_at": "2026-11-01T20:52:03",
+  "decks": [
+    {
+      "id": 10,
+      "name": "Memorising 1984   Base Essay Trial",
+      "mode": "auto",
+      "created_at": "2026-11-01T20:51:30",
+      "cards": [
+        {
+          "id": 274,
+          "front": "Defiance can reinforce the power it seeks to dismantle, creating a vicious cycle of control and resistance/[...].",
+          "back": "• In George Orwell's Nineteen Eighty-Four (1949), this paradox is vividly illustrated as the act of rebellion becomes a tool for the authoritarian regime to tighten its grip.\n• Orwell's novel is a haunting premonition, not merely a relic of the past.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 275,
+          "front": "Through Winston and Julia’s struggles for autonomy and connection, Orwell reveals the [...] highlighting the fragility of love and the seductive allure of conformity in the face of overwhelming control.",
+          "back": "• Orwell offers provocative insights that resonate even today, as we grapple with questions of surveillance, misinformation, and the erosion of truth.",
+          "type": "essay",
+          "status": "needs_review",
+          "review_count": 1,
+          "correct_count": 0,
+          "next_review": "2026-11-01T21:01:58",
+          "last_reviewed": "2026-11-01T20:51:58"
+        },
+        {
+          "id": 276,
+          "front": "Orwell's cynical portrayal of authority is a stark warning against complacency and the dangers of unchecked _____ showing how efforts to resist can sometimes feed the very systems they oppose.",
+          "back": "power\n\nOrwell's cynical portrayal of authority is a stark warning against complacency and the dangers of unchecked power showing how efforts to resist can sometimes feed the very systems they oppose.",
+          "type": "cloze",
+          "status": "needs_review",
+          "review_count": 1,
+          "correct_count": 0,
+          "next_review": "2026-11-01T21:01:59",
+          "last_reviewed": "2026-11-01T20:51:59"
+        },
+        {
+          "id": 277,
+          "front": "Orwell reveals the struggle to assert personal and political autonomy against totalitarian regimes to challenge [...] individual acts of defiance.",
+          "back": "• Contrary to the notion that individual acts of defiance weaken the regime, Orwell argues that these acts are manipulated to reinforce the Party's control.",
+          "type": "essay",
+          "status": "mastered",
+          "review_count": 1,
+          "correct_count": 0,
+          "next_review": "2026-11-04T20:52:03",
+          "last_reviewed": "2026-11-01T20:52:03"
+        },
+        {
+          "id": 278,
+          "front": "The policing methods of surveillance found in Orwell’s novel parallel the monitoring occurring during Nazi Germany demonstrating how _____ regimes use constant oversight to maintain power.",
+          "back": "totalitarian\n\nThe policing methods of surveillance found in Orwell’s novel parallel the monitoring occurring during Nazi Germany demonstrating how totalitarian regimes use constant oversight to maintain power.",
+          "type": "cloze",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 279,
+          "front": "This ceaseless monitoring is reflected through the tautology of the two-way telescreen, which Orwell describes as a “never-sleeping ear”.",
+          "back": "• The personification creates a grotesque humanisation, expanding on the annals of reality to emphasise the constant policing of the party.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 280,
+          "front": "“never-sleeping ear”\n\nWhat does this quote show?",
+          "back": "• This ceaseless monitoring is reflected through the tautology of the two-way telescreen, which Orwell describes as a “never-sleeping ear”.",
+          "type": "quote",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 281,
+          "front": "Even spaces of perceived freedom, like the Golden Country - a rare setting in the novel where relationships can potentially flourish - are ultimately traps.",
+          "back": "• The motif of the Golden Country, illustrated in both Winston’s dream and his and Julia’s clandestine meeting, symbolises a fleeting escape from oppression.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 282,
+          "front": "_____ describes the setting as “sunlight, filtering through innumerable leaves, was still hot on their faces” where the alluring natural imagery, the joyful connotations of sunlight and the use of the sublime, offer a stark contrast to the bleak urban…",
+          "back": "Winston\n\nWinston describes the setting as “sunlight, filtering through innumerable leaves, was still hot on their faces” where the alluring natural imagery, the joyful connotations of sunlight and the use of the sublime, offer a stark contrast to the bleak urban…",
+          "type": "cloze",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 283,
+          "front": "However, this defiance against loneliness and control is short-lived.",
+          "back": "• In the final part of the tripartite novel, under the physical and psychological torture in Room 101, Winston cries, 'Do it to Julia!\n• Do it to Julia!' reveals the tragic irony of self-preservation.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 284,
+          "front": "The epizeuxis highlights how the Party exploits rebellion, twisting it into a means of reaffirming its dominance and suggesting that under such oppression, true autonomy is impossible.",
+          "back": "• Orwell suggests that the system's grip tightens even in defiance, proving that loneliness and betrayal are inescapable under such a regime.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 285,
+          "front": "By depicting the desire for interpersonal intimacy, Orwell reveals insights into the inconsistencies of human behaviours and motivations through the tension between love and self-interest. [...",
+          "back": "• This is used as a political tactic to endorse loneliness by preventing intimacy, and instead, indoctrinating absolute loyalty to Big Brother and the party.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 286,
+          "front": "The party is aware of the sexual dissatisfaction and loneliness caused by this ban.",
+          "back": "• Winston describes the Two Minute Hate as a “hideous ecstasy of fear and vindictiveness”.\n• The double entendre of “ecstasy”, is a way the party manipulates and redirects these emotions into “vindictiveness”.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 287,
+          "front": "“hideous ecstasy of fear and vindictiveness”\n\nWhat does this quote show?",
+          "back": "• Winston describes the Two Minute Hate as a “hideous ecstasy of fear and vindictiveness”.",
+          "type": "quote",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 288,
+          "front": "Further, representing the prudish culture of the society, Katherine claiming that sex was merely “our duty to the _____”, signifies physical relationships were used solely for procreation rather than pleasure.",
+          "back": "party\n\nFurther, representing the prudish culture of the society, Katherine claiming that sex was merely “our duty to the party”, signifies physical relationships were used solely for procreation rather than pleasure.",
+          "type": "cloze",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 289,
+          "front": "Similarly, Julia embodied the party’s puritanical values by proudly wearing a Junior Anti-Sex League scarlet sash, symbolic of her loyalty to the party.",
+          "back": "• This is contrasted by the visual imagery of Julia “rip[ping] off the scarlet sash of the Junior Anti-Sex League”.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 290,
+          "front": "“rip[ping] off the scarlet sash of the Junior Anti-Sex League”\n\nWhat does this quote show?",
+          "back": "• This is contrasted by the visual imagery of Julia “rip[ping] off the scarlet sash of the Junior Anti-Sex League”.",
+          "type": "quote",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 291,
+          "front": "Following Winston and Julia’s tortuous brainwashing in room 101, Winston comments with objectifying tone “perhaps her thickened...body” that “was no longer recognisable”.",
+          "back": "• Thus, we are reminded of the party’s oppressive ability to divert and disenable the human experience of a desire for sexual intimacy and love, to indoctrinate absolute loyalty to the party.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 292,
+          "front": "“perhaps her thickened...body”\n\nWhat does this quote show?",
+          "back": "• Following Winston and Julia’s tortuous brainwashing in room 101, Winston comments with objectifying tone “perhaps her thickened...body” that “was no longer recognisable”.\n• Thus, we are reminded of the party’s oppressive ability to divert and disenable the human experience of a desire for sexual intimacy and love, to indoctrinate absolute loyalty to the party.",
+          "type": "quote",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 293,
+          "front": "“was no longer recognisable”\n\nWhat does this quote show?",
+          "back": "• Following Winston and Julia’s tortuous brainwashing in room 101, Winston comments with objectifying tone “perhaps her thickened...body” that “was no longer recognisable”.\n• Thus, we are reminded of the party’s oppressive ability to divert and disenable the human experience of a desire for sexual intimacy and love, to indoctrinate absolute loyalty to the party.",
+          "type": "quote",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 294,
+          "front": "By exposing the erasure of history and language, Orwell gives insights into how truth is paradoxically fallible as totalitarian governments seek to [...] for the political purpose of maintaining power.",
+          "back": "• Orwell warns that a restriction on communication can lead to loneliness.\n• There, during WWII he was exposed to the ease with which those in power were able to suppress diverging views.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 295,
+          "front": "The limitation in language is conveyed through the neologism ‘newspeak’, Oceania’s new language, described by newspeak specialist Symes to be “a beautiful thing” involving “the destruction of words”.",
+          "back": "• The paradox of “destruction” described as “beautiful” is tonally unsettling evident in minimising intellectual autonomy - leading to loneliness.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 296,
+          "front": "“a beautiful thing”\n\nWhat does this quote show?",
+          "back": "• The limitation in language is conveyed through the neologism ‘newspeak’, Oceania’s new language, described by newspeak specialist Symes to be “a beautiful thing” involving “the destruction of words”.",
+          "type": "quote",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 297,
+          "front": "“the destruction of words”\n\nWhat does this quote show?",
+          "back": "• The limitation in language is conveyed through the neologism ‘newspeak’, Oceania’s new language, described by newspeak specialist Symes to be “a beautiful thing” involving “the destruction of words”.",
+          "type": "quote",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 298,
+          "front": "Despite this, individuals’ desire to assert themselves is conveyed through Winston’s attempts to tell his narrative through diary entries, “shedding first its capital letters and finally even its full stops”.",
+          "back": "• His urgency represents the power writing has in serving as an escapism from his loneliness.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 299,
+          "front": "“shedding first its capital letters and finally even its full stops”\n\nWhat does this quote show?",
+          "back": "• Despite this, individuals’ desire to assert themselves is conveyed through Winston’s attempts to tell his narrative through diary entries, “shedding first its capital letters and finally even its full stops”.\n• His urgency represents the power writing has in serving as an escapism from his loneliness.",
+          "type": "quote",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 300,
+          "front": "This shows the party’s ability to distort the truth, manipulate the mind through language, and extort individual liberties, forcing complacency, and ultimately resulting in isolation.",
+          "back": "• Orwell warns of the effects of the suppression of language and personal expression on isolating the individual by restricting the means of communication.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 301,
+          "front": "In Nineteen Eighty-Four, Orwell exposes the fragility of rebellion and human connection within a totalitarian regime [...].",
+          "back": "• The Party's manipulation of language and relentless surveillance ultimately erode individual autonomy and genuine intimacy.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 302,
+          "front": "Thus, [...], characters are left trapped in a perpetual state of loneliness and conformity.",
+          "back": "• Through Winston's tragic downfall, Orwell reveals the paradoxical nature of resistance, demonstrating how even acts of defiance can become tools of oppression.",
+          "type": "essay",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 303,
+          "front": "His vision serves as a timeless warning against conformity's seductive allure and unchecked authority's insidious power, urging us to be defenders of _____ voice. [...].",
+          "back": "personal\n\nHis vision serves as a timeless warning against conformity's seductive allure and unchecked authority's insidious power, urging us to be defenders of personal voice. [...].",
+          "type": "cloze",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        },
+        {
+          "id": 304,
+          "front": "→ The Party (authority) and the _____ are NOT monolithic entities.",
+          "back": "individuals\n\n→ The Party (authority) and the individuals are NOT monolithic entities.",
+          "type": "cloze",
+          "status": "new",
+          "review_count": 0,
+          "correct_count": 0,
+          "next_review": null,
+          "last_reviewed": null
+        }
+      ]
+    }
+  ]
+}
